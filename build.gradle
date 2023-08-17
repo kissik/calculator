@@ -1,0 +1,49 @@
+plugins {
+    id "java"
+    id "checkstyle"
+}
+
+group "org.learn.task.seven"
+version "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    checkstyleVersion = "10.12.1"
+    junitVersion = "5.9.2"
+    mockitoVersion = "5.4.0"
+}
+
+dependencies {
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:${junitVersion}"
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
+
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+}
+
+
+checkstyle {
+    toolVersion "${checkstyleVersion}"
+    configFile = file("./config/checkstyle/google_checks.xml")
+    ignoreFailures = false
+    maxWarnings = 0
+}
+
+checkstyleMain {
+    source = "src/main/java"
+}
+
+checkstyleTest {
+    source = "src/test/java"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    enabled = false
+}
